@@ -1,0 +1,19 @@
+#This CronJob deploys a new container every minute that prints the time, date and "Hello, World!".
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo "Hello, World!"
+          restartPolicy: OnFailure # pod remains on node if task failed or pod failed and container is restarted without launching another pod
